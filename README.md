@@ -10,6 +10,8 @@ var newObserver = new observerWrapper({ target: document.body });
 
 newObserver.observe(function( node ){
 	console.log(node.className);
+	// this refers to the instantiated MutationObserver object.
+	this.disconnect();
 });
 ```
 
