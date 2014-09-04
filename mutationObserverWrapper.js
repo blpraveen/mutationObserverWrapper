@@ -14,12 +14,21 @@ var observerWrapper = function( options ){
 observerWrapper.prototype.mutate = function ( mutations ){
     var _this = this;
     mutations.forEach(function( mutation ) {
-        var newNodes = mutation.addedNodes; 
+        var newNodes     = mutation.addedNodes;
+        var removedNodes = mutation.removedNodes;
         if( newNodes !== null ) { 
-                newNodes = [].slice.apply(newNodes);
-                newNodes.forEach(function(newNode){
-                    _this.callback.call( _this.observer, newNode );
-                });
+            newNodes = [].slice.apply(newNodes);
+            newNodes.forEach(function(newNode){
+                newNode.ptag = "added";
+                _this.callback.call( _this.observer, newNode );
+            });
+        }
+        if( removedNodes !== null ) { 
+            removedNodes = [].slice.apply(removedNodes);
+            removedNodes.forEach(function(removedNode){
+                removedNode.ptag = "removed";
+                _this.callback.call( _this.observer, removedNode );
+            });
         }
     });
 }
